@@ -1,9 +1,19 @@
-@isTest
+@isTest(SeeAllData=true)
 private class TestToolSearchPageController {
     
      static testMethod void testToolSearch() {
      
-     Profile pf = [Select Id from Profile where Name = 'Custom Portal Manger'];
+     Account a = new Account();
+     a.Name = 'test';
+     insert a;
+     
+     Contact c = new Contact();
+     c.FirstName = 'first';
+     c.LastName = 'last';
+     c.AccountId = a.Id;
+     insert c;
+     
+     Profile pf = [Select Id from Profile where Name = 'Customer Portal Manager Standard'];
      
      User u = new User();
      u.FirstName = 'Joe';
@@ -18,6 +28,7 @@ private class TestToolSearchPageController {
      u.LocaleSidKey = 'en_US';
      u.EmailEncodingKey = 'ISO-8859-1';
      u.ProfileId = pf.Id;
+     u.ContactId = c.Id;
      u.LanguageLocaleKey = 'en_US';
      insert u; 
      
@@ -27,30 +38,11 @@ private class TestToolSearchPageController {
      PageReference pg = Page.ToolSearch;
         Test.setCurrentPage(pg);
       
-        pg.getParameters().put('classt', 'test first name');
-        pg.getParameters().put('specdetail', 'test last name');
-        pg.getParameters().put('statust', 'testt');
-        pg.getParameters().put('spectype', 'test candidate source');
-        pg.getParameters().put('SpecType_1', 'false');
-        pg.getParameters().put('SpecType_2', 'false');
-        pg.getParameters().put('SpecType_3', 'false');
-        pg.getParameters().put('SpecType_4', 'false');
-        pg.getParameters().put('SpecType_5', 'false');
-        pg.getParameters().put('SpecType_6', 'false');
-        pg.getParameters().put('SpecType_7', 'false');
-        pg.getParameters().put('SpecType_8', 'false');
-        pg.getParameters().put('SpecType_9', 'false');
-        pg.getParameters().put('SpecType_10', 'false');
-        pg.getParameters().put('SpecType_11', 'false');
-        pg.getParameters().put('SpecType_12', 'false');
-        pg.getParameters().put('SpecType_13', 'false');
-        pg.getParameters().put('SpecType_14', 'false');
-        pg.getParameters().put('SpecType_15', 'false');
-        pg.getParameters().put('SpecType_16', 'false');
-        pg.getParameters().put('SpecType_17', 'false');
-        pg.getParameters().put('SpecType_18', 'false');
-     
-     // instantiate the controller
+        pg.getParameters().put('acctname', 'test');
+        pg.getParameters().put('ProfileValues', 'Active');
+        pg.getParameters().put('RoleValues', 'Customer Portal Manager Standard');
+        
+             // instantiate the controller
         ToolSearchPageController controller=new ToolSearchPageController();
         System.assert(controller.runSearch() == null);
     // change to Role and Profile filter inputs -->    System.assertequals(controller.StatusToolValues[0], 'Ready');
@@ -62,8 +54,8 @@ private class TestToolSearchPageController {
 
     controller.sortField = 'Some invalid sort field';
     controller.runQuery();
-    //controller.refresh();
-    //controller.disableSelectedUsers();
+    controller.refresh();
+    controller.disableSelectedUsers();
     
     Test.StopTest();
     

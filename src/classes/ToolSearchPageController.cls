@@ -19,7 +19,7 @@ public with sharing class ToolSearchPageController {
   }
   
   public String debugSoql {
-    get { return soql + ' order by ' + sortField + ' ' + sortDir + ' limit 10'; }
+    get { return soql + ' order by ' + sortField + ' ' + sortDir; }
     set;
   }
  
@@ -42,7 +42,7 @@ public with sharing class ToolSearchPageController {
   public void runQuery() {
  
     try {
-      setCon = new ApexPages.StandardSetController(Database.getQueryLocator(soql + ' order by ' + sortField + ' ' + sortDir + ' limit 10'));
+      setCon = new ApexPages.StandardSetController(Database.getQueryLocator(soql + ' order by ' + sortField + ' ' + sortDir));
 
       getUsers();
       
@@ -86,23 +86,6 @@ public with sharing class ToolSearchPageController {
     return null;
   }
  
-  // use apex describe to build the picklist values
-  public List<String> StatusToolValues {
-    get {
-      if (StatusToolValues == null) {
- 
-        StatusToolValues = new List<String>();
-        Schema.DescribeFieldResult field = Tools__c.Status__c.getDescribe();
- 
-        for (Schema.PicklistEntry f : field.getPicklistValues())
-          StatusToolValues.add(f.getLabel());
- 
-      }
-      return StatusToolValues;          
-    }
-    set;
-  }
-  
   // use apex describe to build the User Profile picklist values
   public List<String> ProfileValues {
     get {

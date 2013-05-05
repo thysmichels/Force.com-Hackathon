@@ -48,12 +48,8 @@
             </apex:repeat>
           </select>
         </td>
-      </tr>
+      </tr>      
       </table>
-      <hr/>
-      <div align="center">
-      <apex:commandButton action="{!disableSelectedUsers}" value="{!buttonName}" status="disable" id="disablebutton"/>
-      </div>
       </apex:pageBlock>
  
     </td>
@@ -116,10 +112,15 @@
               <apex:outputField value="{!user.UserRole.Name}"/>
             </apex:column>
         </apex:pageBlockTable>
+
     </apex:pageBlock>
     </td>
-  </tr>
-  </table>   
+  </tr> 
+  <tr>
+  <td> <apex:commandButton action="{!disableSelectedUsers}" value="{!buttonName}" status="disable" id="disablebutton"/> </td> </tr>
+  </table>
+  
+    
  
   </apex:form>
  
