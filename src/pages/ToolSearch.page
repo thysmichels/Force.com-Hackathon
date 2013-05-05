@@ -17,11 +17,10 @@
       }
       </script> 
  
-      <apex:actionFunction name="searchServer" action="{!runSearch}" rerender="results,debug,errors,disablebutton">
+      <apex:actionFunction name="searchServer" action="{!runSearch}" rerender="results">
           <apex:param name="acctname" value="" />
           <apex:param name="ProfileValues" value="" />
           <apex:param name="RoleValues" value="" />
-          
       </apex:actionFunction>
  
       <table cellpadding="2" cellspacing="2">
@@ -35,7 +34,6 @@
           <select id="ProfileValues" onchange="doSearch();">
             <option value="">InActive</option>
             <option value="">Active</option>
-            
           </select>
         </td>
       </tr>
@@ -58,7 +56,7 @@
     <apex:pageBlock mode="edit" id="results">
         <apex:pageBlockTable value="{!Users}" var="user">
             
-            <apex:column >
+            <apex:column headerValue="Active">
                 <apex:inputField value="{!user.IsActive}" />
             </apex:column>
 
@@ -67,7 +65,7 @@
             </apex:column>
             <apex:column >
                 <apex:facet name="header">
-                    <apex:commandLink value="First Name" action="{!toggleSort}" rerender="results,debug">
+                    <apex:commandLink value="First Name" action="{!toggleSort}" rerender="results">
                         <apex:param name="sortField" value="FirstName" assignTo="{!sortField}"/>
                     </apex:commandLink>
                    </apex:facet>
@@ -78,7 +76,7 @@
            
             <apex:column >
               <apex:facet name="header">
-                <apex:commandLink value="Last Name" action="{!toggleSort}" rerender="results,debug">
+                <apex:commandLink value="Last Name" action="{!toggleSort}" rerender="results">
                         <apex:param name="sortField" value="LastName" assignTo="{!sortField}"/>
                     </apex:commandLink>
                  </apex:facet>
@@ -87,16 +85,7 @@
 
             <apex:column >
               <apex:facet name="header">
-                <apex:commandLink value="isActive" action="{!toggleSort}" rerender="results,debug">
-                        <apex:param name="sortField" value="IsActive" assignTo="{!sortField}"/>
-                    </apex:commandLink>
-                 </apex:facet>
-              <apex:outputField value="{!user.IsActive}"/>
-            </apex:column>
-
-            <apex:column >
-              <apex:facet name="header">
-                <apex:commandLink value="Account Name" action="{!toggleSort}" rerender="results,debug">
+                <apex:commandLink value="Account Name" action="{!toggleSort}" rerender="results">
                         <apex:param name="sortField" value="Contact.Account.Name" assignTo="{!sortField}"/>
                     </apex:commandLink>
                  </apex:facet>
@@ -105,7 +94,7 @@
 
             <apex:column >
               <apex:facet name="header">
-                <apex:commandLink value="Role" action="{!toggleSort}" rerender="results,debug">
+                <apex:commandLink value="Role" action="{!toggleSort}" rerender="results">
                         <apex:param name="sortField" value="UserRole.Name" assignTo="{!sortField}"/>
                     </apex:commandLink>
                  </apex:facet>
@@ -117,11 +106,11 @@
     </td>
   </tr> 
   <tr>
-  <td> <apex:commandButton action="{!disableSelectedUsers}" value="{!buttonName}" status="disable" id="disablebutton"/> </td> </tr>
+  <td></td>
+  <td align="Left"> 
+  <apex:commandButton action="{!disableSelectedUsers}" value="Save" status="disable" id="disablebutton"/> 
+  </td>
+   </tr>
   </table>
-  
-    
- 
   </apex:form>
- 
 </apex:page>

@@ -86,19 +86,21 @@ public with sharing class ToolSearchPageController {
     return null;
   }
  
+  private static List<String> profileStatus;
+
   // use apex describe to build the User Profile picklist values
   public List<String> ProfileValues {
     get {
-      if (ProfileValues == null) {
+      if (profileStatus == null) {
  
-        ProfileValues = new List<String>();
+        profileStatus = new List<String>();
         Schema.DescribeFieldResult field = Profile.Name.getDescribe();
  
         for (Schema.PicklistEntry f : field.getPicklistValues())
-          ProfileValues.add(f.getLabel());
+          profileStatus.add(f.getLabel());
  
       }
-      return ProfileValues;          
+      return profileStatus;          
     }
     set;
   }
@@ -133,18 +135,10 @@ public with sharing class ToolSearchPageController {
       List<User> updatedUsers = new List<User>();
       for (User u : (List<User>) setCon.getRecords())
       {
-          if (u.IsActive == true)
-          {
-            u.IsActive = true;
             updatedUsers.add(u);
-          }
-          else if (u.isActive == false)
-          {
-            u.IsActive = false;
-            updatedUsers.add(u);
-          }
       }
       update updatedUsers;
+      
       setCon = null;
       return null;
   }
