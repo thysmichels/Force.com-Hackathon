@@ -1,0 +1,126 @@
+<apex:page controller="ToolSearchPageController" sidebar="true">
+ 
+  <apex:form >
+  <apex:pageMessages id="errors" />
+  <table width="100%" border="0">
+  <tr>  
+    <td width="200" valign="top">
+ 
+      <apex:pageBlock mode="edit" id="criteria">
+      <script type="text/javascript">
+      function doSearch() {
+        searchServer(
+          document.getElementById("acctname").value,
+          document.getElementById("ProfileValues").options[document.getElementById("ProfileValues").selectedIndex].value,
+          document.getElementById("RoleValues").options[document.getElementById("RoleValues").selectedIndex].value
+          );
+      }
+      </script> 
+ 
+      <apex:actionFunction name="searchServer" action="{!runSearch}" rerender="results,debug,errors,disablebutton">
+          <apex:param name="acctname" value="" />
+          <apex:param name="ProfileValues" value="" />
+          <apex:param name="RoleValues" value="" />
+          
+      </apex:actionFunction>
+ 
+      <table cellpadding="2" cellspacing="2">
+      <tr>
+        <td style="font-weight:bold;">Account Name<br/>
+        <input type="text" id="acctname" onkeyup="doSearch();"/>
+        </td>
+      </tr>
+      <tr>
+        <td style="font-weight:bold;">Status<br/>
+          <select id="ProfileValues" onchange="doSearch();">
+            <option value="">InActive</option>
+            <option value="">Active</option>
+            
+          </select>
+        </td>
+      </tr>
+      <tr>
+        <td style="font-weight:bold;">User Role<br/>
+          <select id="RoleValues" onchange="doSearch();">
+            <option value=""></option>
+            <apex:repeat value="{!RoleValues}" var="ur">
+              <option value="{!ur}">{!ur}</option>
+            </apex:repeat>
+          </select>
+        </td>
+      </tr>
+      </table>
+      <hr/>
+      <div align="center">
+      <apex:commandButton action="{!disableSelectedUsers}" value="{!buttonName}" status="disable" id="disablebutton"/>
+      </div>
+      </apex:pageBlock>
+ 
+    </td>
+    <td valign="top">
+ 
+    <apex:pageBlock mode="edit" id="results">
+        <apex:pageBlockTable value="{!Users}" var="user">
+            
+            <apex:column >
+                <apex:inputField value="{!user.IsActive}" />
+            </apex:column>
+
+            <apex:column headerValue="Profile Pic">
+              <apex:image id="profileImage" url="{!user.SmallPhotoUrl}" />
+            </apex:column>
+            <apex:column >
+                <apex:facet name="header">
+                    <apex:commandLink value="First Name" action="{!toggleSort}" rerender="results,debug">
+                        <apex:param name="sortField" value="FirstName" assignTo="{!sortField}"/>
+                    </apex:commandLink>
+                   </apex:facet>
+                <apex:outputlink value="/{!user.Id}">
+                  <apex:outputField value="{!user.FirstName}"/>
+                </apex:outputlink>
+            </apex:column>
+           
+            <apex:column >
+              <apex:facet name="header">
+                <apex:commandLink value="Last Name" action="{!toggleSort}" rerender="results,debug">
+                        <apex:param name="sortField" value="LastName" assignTo="{!sortField}"/>
+                    </apex:commandLink>
+                 </apex:facet>
+              <apex:outputField value="{!user.LastName}"/>
+            </apex:column>
+
+            <apex:column >
+              <apex:facet name="header">
+                <apex:commandLink value="isActive" action="{!toggleSort}" rerender="results,debug">
+                        <apex:param name="sortField" value="IsActive" assignTo="{!sortField}"/>
+                    </apex:commandLink>
+                 </apex:facet>
+              <apex:outputField value="{!user.IsActive}"/>
+            </apex:column>
+
+            <apex:column >
+              <apex:facet name="header">
+                <apex:commandLink value="Account Name" action="{!toggleSort}" rerender="results,debug">
+                        <apex:param name="sortField" value="Contact.Account.Name" assignTo="{!sortField}"/>
+                    </apex:commandLink>
+                 </apex:facet>
+              <apex:outputField value="{!user.Contact.Account.Name}"/>
+            </apex:column>
+
+            <apex:column >
+              <apex:facet name="header">
+                <apex:commandLink value="Role" action="{!toggleSort}" rerender="results,debug">
+                        <apex:param name="sortField" value="UserRole.Name" assignTo="{!sortField}"/>
+                    </apex:commandLink>
+                 </apex:facet>
+              <apex:outputField value="{!user.UserRole.Name}"/>
+            </apex:column>
+        </apex:pageBlockTable>
+    </apex:pageBlock>
+    </td>
+  </tr>
+  </table>   
+ 
+  </apex:form>
+ 
+</apex:page>

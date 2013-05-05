@@ -1,0 +1,147 @@
+<apex:page controller="ToolSearchPageControllerTest" sidebar="true">
+ 
+  <apex:form >
+  <apex:pageMessages id="errors" />
+  <table width="100%" border="0">
+  <tr>  
+    <td width="200" valign="top">
+ 
+      <apex:pageBlock mode="edit" id="criteria">
+      
+      <script type="text/javascript">
+      function doSearch() {
+        searchServer(
+          document.getElementById("classt").value,
+          document.getElementById("specdetail").value,
+          document.getElementById("statust").options[document.getElementById("statust").selectedIndex].value,
+          document.getElementById("SpecType_1").checked,
+          document.getElementById("SpecType_2").checked,
+          document.getElementById("SpecType_3").checked,
+          document.getElementById("SpecType_4").checked,
+          document.getElementById("SpecType_5").checked,
+          document.getElementById("SpecType_6").checked,
+          document.getElementById("SpecType_7").checked,
+          document.getElementById("SpecType_8").checked,
+          document.getElementById("SpecType_9").checked,
+          document.getElementById("SpecType_10").checked,
+          document.getElementById("SpecType_11").checked,
+          document.getElementById("SpecType_12").checked,
+          document.getElementById("SpecType_13").checked,
+          document.getElementById("SpecType_14").checked,
+          document.getElementById("SpecType_15").checked,
+          document.getElementById("SpecType_16").checked,
+          document.getElementById("SpecType_17").checked,
+          document.getElementById("SpecType_18").checked
+          );
+      }
+      </script> 
+ 
+      <apex:actionFunction name="searchServer" action="{!runSearch}" rerender="results,debug,errors">
+          <apex:param name="classt" value="" />
+          <apex:param name="specdetail" value="" />
+          <apex:param name="statust" value="" />
+          <apex:param name="SpecType_1" value="" />
+          <apex:param name="SpecType_2" value="" />
+          <apex:param name="SpecType_3" value="" />
+          <apex:param name="SpecType_4" value="" />
+          <apex:param name="SpecType_5" value="" />
+          <apex:param name="SpecType_6" value="" />
+          <apex:param name="SpecType_7" value="" />
+          <apex:param name="SpecType_8" value="" />
+          <apex:param name="SpecType_9" value="" />
+          <apex:param name="SpecType_10" value="" />
+          <apex:param name="SpecType_11" value="" />
+          <apex:param name="SpecType_12" value="" />
+          <apex:param name="SpecType_13" value="" />
+          <apex:param name="SpecType_14" value="" />
+          <apex:param name="SpecType_15" value="" />
+          <apex:param name="SpecType_16" value="" />
+          <apex:param name="SpecType_17" value="" />
+          <apex:param name="SpecType_18" value="" />
+          
+      </apex:actionFunction>
+ 
+      <table cellpadding="2" cellspacing="2">
+      <tr>
+        <td style="font-weight:bold;">Account Name<br/>
+        <input type="text" id="classt" onkeyup="doSearch();"/>
+        </td>
+      </tr>
+      <tr>
+        <td style="font-weight:bold;">Role<br/>
+        <input type="text" id="classt" onkeyup="doSearch();"/>
+        </td>
+      </tr>
+      <tr>
+        <td style="font-weight:bold;">Profile<br/>
+        <input type="text" id="classt" onkeyup="doSearch();"/>
+        </td>
+      </tr>
+      <tr>
+        <td style="font-weight:bold;">User Status<br/>
+        <input type="text" id="classt" onkeyup="doSearch();"/>
+        </td>
+      </tr>
+      
+      </table>
+      <hr/>
+      
+      <!--><hr/>
+      <table>
+      <tr>Tool Count</tr>
+      <tr> - #582</tr>
+      </table></!-->
+      <apex:commandButton action="{!disableSelectedUsers}" value="Search" status="disable"/>
+
+      </apex:pageBlock>
+ 
+    </td>
+    <td valign="top">
+ 
+    <apex:pageBlock mode="edit" id="results">
+        <apex:pageBlockTable value="{!Users}" var="user">
+            
+            <apex:column >
+                <apex:inputField value="{!user.IsActive}" />
+            </apex:column>
+
+            <apex:column headerValue="Profile Pic">
+              <apex:image id="profileImage" url="{!user.SmallPhotoUrl}" />
+            </apex:column>
+            <apex:column >
+                <apex:facet name="header">
+                    <apex:commandLink value="First Name" action="{!toggleSort}" rerender="results,debug">
+                        <apex:param name="sortField" value="FirstName" assignTo="{!sortField}"/>
+                    </apex:commandLink>
+                   </apex:facet>
+                <apex:outputlink value="/{!user.Id}">
+                  <apex:outputField value="{!user.FirstName}"/>
+                </apex:outputlink>
+            </apex:column>
+           
+            <apex:column >
+              <apex:facet name="header">
+                <apex:commandLink value="Last Name" action="{!toggleSort}" rerender="results,debug">
+                        <apex:param name="sortField" value="LastName" assignTo="{!sortField}"/>
+                    </apex:commandLink>
+                 </apex:facet>
+              <apex:outputField value="{!user.LastName}"/>
+            </apex:column>
+
+            <apex:column >
+              <apex:facet name="header">
+                <apex:commandLink value="isActive" action="{!toggleSort}" rerender="results,debug">
+                        <apex:param name="sortField" value="IsActive" assignTo="{!sortField}"/>
+                    </apex:commandLink>
+                 </apex:facet>
+              <apex:outputField value="{!user.IsActive}"/>
+            </apex:column>
+        </apex:pageBlockTable>
+    </apex:pageBlock>
+    </td>
+  </tr>
+  </table>   
+ 
+  </apex:form>
+ 
+</apex:page>
