@@ -32,8 +32,8 @@
       <tr>
         <td style="font-weight:bold;">Status<br/>
           <select id="ProfileValues" onchange="doSearch();">
-            <option value="">InActive</option>
             <option value="">Active</option>
+            <option value="">InActive</option>
           </select>
         </td>
       </tr>

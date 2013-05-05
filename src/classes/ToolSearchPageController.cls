@@ -25,7 +25,7 @@ public with sharing class ToolSearchPageController {
  
   // init the controller and display some sample data when the page loads
   public ToolSearchPageController() {
-    soql = 'select Id, Active2__c, Username, LastName, FirstName, IsActive, SmallPhotoUrl, Contact.Account.Name, UserRole.Name from User where IsActive=false and Profile.Name LIKE \'%'+String.escapeSingleQuotes('Portal')+'%\'';
+    soql = 'select Id, Active2__c, Username, LastName, FirstName, IsActive, SmallPhotoUrl, Contact.Account.Name, UserRole.Name from User where IsActive=true and Profile.Name LIKE \'%'+String.escapeSingleQuotes('Portal')+'%\'';
     
     runQuery();
   }
